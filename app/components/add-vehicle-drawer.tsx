@@ -2,6 +2,8 @@ import { useFetcher } from "@remix-run/react";
 import { Car, CarFront, CirclePlus, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { CarWireframeFront } from "~/assets/car-wireframe-front";
+import { CarWireframeSide } from "~/assets/car-wireframe-side";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
@@ -49,19 +51,14 @@ export const AddVehicleDrawer = () => {
               ) : null}
             </div>
             <div className="flex flex-col gap-4">
-              <p>
+              <p className="mb-2">
                 Don’t have the Vehicle Identification Number (VIN) handy? Here’s
                 where to find it.
               </p>
 
               <div className="relative flex gap-4 items-center">
-                <CarFront
-                  size={38}
-                  strokeWidth={1.5}
-                  absoluteStrokeWidth
-                  className="text-muted-foreground shrink-0"
-                />
-                <div className="absolute top-[12px] left-[21px] size-2">
+                <CarWireframeFront className="w-24 h-auto shrink-0" />
+                <div className="absolute top-[18px] left-[56px] size-2">
                   <div className="absolute size-full rounded-full bg-green-400 opacity-60 animate-slow-ping" />
                   <div className="absolute size-full rounded-full border border-background bg-green-400" />
                 </div>
@@ -74,13 +71,8 @@ export const AddVehicleDrawer = () => {
               </div>
 
               <div className="relative flex gap-4 items-center">
-                <Car
-                  size={38}
-                  strokeWidth={1.5}
-                  absoluteStrokeWidth
-                  className="text-muted-foreground shrink-0 -scale-x-100"
-                />
-                <div className="absolute top-[22px] left-[15px] size-2">
+                <CarWireframeSide className="w-24 h-auto shrink-0" />
+                <div className="absolute bottom-[15px] left-[52px] size-2">
                   <div className="absolute size-full rounded-full bg-green-400 opacity-60 animate-slow-ping" />
                   <div className="absolute size-full rounded-full border border-background bg-green-400" />
                 </div>
