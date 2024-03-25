@@ -72,16 +72,14 @@ export default function NameScene() {
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
-      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+      <h1 className="text-4xl lg:text-5xl">
         Get a quote in less than 5 minutes
       </h1>
 
       <div className="w-16 h-1 bg-primary"></div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-semibold tracking-tight">
-          Let’s start with your name
-        </h2>
+        <h2 className="text-3xl">Let’s start with your name</h2>
         <p>Please make sure it matches the information on your license.</p>
       </div>
 
@@ -115,7 +113,7 @@ export default function NameScene() {
         Been here before?{" "}
         <Link
           to="/sign-in"
-          className="rt-Text rt-reset rt-Link rt-underline-auto"
+          className="no-underline text-foreground transition hover:text-primary"
         >
           Finish signing up
         </Link>

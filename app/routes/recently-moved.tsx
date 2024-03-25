@@ -48,9 +48,7 @@ export default function RecentlyMovedScene() {
 
   return (
     <Form method="post" className="flex flex-col gap-8 w-full max-w-md">
-      <h2 className="text-3xl font-semibold tracking-tight">
-        Have you moved in the last 6 months?
-      </h2>
+      <h2 className="text-3xl">Have you moved in the last 6 months?</h2>
 
       <RadioGroup name="recentlyMoved" defaultValue={recentlyMoved?.toString()}>
         <Separator />

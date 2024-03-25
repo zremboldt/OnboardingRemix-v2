@@ -85,9 +85,7 @@ export default function NameScene() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
       <div>
-        <h2 className="text-3xl font-semibold tracking-tight">
-          When’s your birthday?
-        </h2>
+        <h2 className="text-3xl">When’s your birthday?</h2>
         {/* <Badge variant="outline" className="text-muted-foreground mt-2">
           MM-DD-YYYY
         </Badge> */}

@@ -49,9 +49,7 @@ export default function HomeownerScene() {
 
   return (
     <Form method="post" className="flex flex-col gap-8 w-full max-w-md">
-      <h2 className="text-3xl font-semibold tracking-tight">
-        Do you rent or own your home?
-      </h2>
+      <h2 className="text-3xl">Do you rent or own your home?</h2>
 
       <RadioGroup name="homeowner" defaultValue={homeowner?.toString()}>
         <Separator />

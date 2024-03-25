@@ -43,9 +43,7 @@ export default function AddressScene() {
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
-      <h2 className="text-3xl font-semibold tracking-tight">
-        What’s your home address?
-      </h2>
+      <h2 className="text-3xl">What’s your home address?</h2>
 
       <Form method="post" className="flex flex-col gap-3">
         <Input

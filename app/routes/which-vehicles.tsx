@@ -78,7 +78,7 @@ export default function WhichVehiclesScene() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-semibold tracking-tight text-pretty">
+        <h2 className="text-3xl text-pretty">
           Which vehicles do you want to insure?
         </h2>
         <p className="text-pretty">

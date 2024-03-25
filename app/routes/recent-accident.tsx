@@ -50,7 +50,7 @@ export default function RecentAccidentScene() {
 
   return (
     <Form method="post" className="flex flex-col gap-8 w-full max-w-md">
-      <h2 className="text-3xl font-semibold tracking-tight">
+      <h2 className="text-3xl">
         In the past 3 years, have you or any other drivers on your policy been
         in an accident or gotten a ticket?
       </h2>

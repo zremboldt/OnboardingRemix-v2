@@ -5,10 +5,11 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher, useNavigate } from "@remix-run/react";
-import { Info, User } from "lucide-react";
+import { Car, ChevronRight, Info, User } from "lucide-react";
 import { FunctionComponent, useState } from "react";
 
 import { AddDriverDrawer } from "~/components/add-driver-drawer";
+import { AddVehicleDrawer } from "~/components/add-vehicle-drawer";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Switch } from "~/components/ui/switch";
@@ -17,16 +18,22 @@ import {
   getUsersOnAccount,
   updateUser,
 } from "~/models/user.server";
+import { getVehicleListItems } from "~/models/vehicle.server";
 import { requireUser } from "~/session.server";
 import { useRootLoaderData } from "~/utils";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { accountId } = await requireUser(request);
-  const users = await getUsersOnAccount({ accountId });
+  const pni = await requireUser(request);
+  const vehicles = await getVehicleListItems({ accountId: pni.accountId });
+  const users = await getUsersOnAccount({ accountId: pni.accountId });
+
   if (!users.length) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ users });
+
+  const nextRoute = !pni.email ? "/create-login" : "/end";
+
+  return json({ users, vehicles, nextRoute });
 };
 
 export async function action(args: ActionFunctionArgs) {
@@ -86,50 +93,44 @@ async function addDriver({ request }: ActionFunctionArgs) {
   return json({ ok: true, error: null });
 }
 
-export const meta: MetaFunction = () => [
-  { title: "Add Drivers | Root Insurance" },
-];
+export const meta: MetaFunction = () => [{ title: "Review | Root Insurance" }];
 
-export default function WhichDriversScene() {
-  const { users } = useRootLoaderData();
+export default function ProfileReviewScene() {
+  const { vehicles, users, nextRoute } = useRootLoaderData();
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl text-pretty">
-          Which drivers will be covered on your policy?
-        </h2>
-        <p>
-          All household members with a valid driver’s license, and other regular
-          operators of the insured vehicle(s), must be listed on your policy.
-        </p>
-        <p>
-          Household members with a valid driver’s license will only be covered
-          if they are listed.
-        </p>
+        <h2 className="text-3xl text-pretty">How does your profile look?</h2>
+        {/* Tip card here */}
       </div>
 
       <div className="flex flex-col gap-3">
-        {users.map((user) => (
-          <UserToggleCard key={user.id} user={user} />
-        ))}
+        <h3>Covered drivers</h3>
+        {users
+          .filter(({ includedOnPolicy }) => includedOnPolicy === true)
+          .map((user) => (
+            <UserToggleCard key={user.id} user={user} />
+          ))}
 
         <AddDriverDrawer />
 
-        <Button onClick={() => navigate(`/recent-accident`)} className="w-full">
+        <h3>Vehicles</h3>
+        {vehicles.length
+          ? vehicles
+              .filter(({ includedOnPolicy }) => includedOnPolicy === true)
+              .map((vehicle) => (
+                <VehicleToggleCard key={vehicle.id} vehicle={vehicle} />
+              ))
+          : null}
+
+        <AddVehicleDrawer />
+
+        <Button onClick={() => navigate(nextRoute)} className="w-full">
           Continue
         </Button>
       </div>
-
-      <Alert className="text-muted-foreground">
-        <Info className="h-4 w-4" />
-        <AlertDescription>
-          We pulled this information from public records. If there’s information
-          that you don’t recognize, you can ignore it–it won’t affect your
-          account.
-        </AlertDescription>
-      </Alert>
     </div>
   );
 }
@@ -166,7 +167,8 @@ const UserToggleCard: FunctionComponent<{
           {includedOnPolicy ? "Covered" : "Not covered"}
         </p>
       </div>
-      {user.pni ? null : (
+      <ChevronRight />
+      {/* {user.pni ? null : (
         <fetcher.Form method="post">
           <input type="hidden" name="_action" value="TOGGLE_DRIVER" />
           <input type="hidden" name="userId" value={user.id} />
@@ -179,7 +181,56 @@ const UserToggleCard: FunctionComponent<{
             onCheckedChange={() => setIsChecked(!isChecked)}
           />
         </fetcher.Form>
-      )}
+      )} */}
+    </label>
+  );
+};
+
+const VehicleToggleCard: FunctionComponent<{
+  vehicle: {
+    id: string;
+    year: number;
+    make: string;
+    model: string;
+    includedOnPolicy: boolean;
+  };
+}> = ({ vehicle }) => {
+  const fetcher = useFetcher();
+
+  const includedOnPolicy = fetcher.formData
+    ? fetcher.formData.get("includedOnPolicy") === "true"
+    : vehicle.includedOnPolicy;
+
+  const [isChecked, setIsChecked] = useState(includedOnPolicy);
+
+  return (
+    <label
+      className=" flex items-center space-x-4 rounded-md border p-4 bg-background"
+      key={vehicle.id}
+      htmlFor={vehicle.id}
+    >
+      <Car />
+      <div className="flex-1 space-y-1">
+        <p className="text-sm font-medium leading-none text-foreground">
+          {vehicle.year} {vehicle.make} {vehicle.model}
+        </p>
+        <p className="text-sm text-muted-foreground">
+          {includedOnPolicy ? "Added" : "Not added"}
+        </p>
+      </div>
+      <ChevronRight />
+      {/* <fetcher.Form method="post">
+        <input type="hidden" name="_action" value="TOGGLE_VEHICLE" />
+        <input type="hidden" name="vehicleId" value={vehicle.id} />
+        <Switch
+          id={vehicle.id}
+          type="submit"
+          name="includedOnPolicy"
+          value={includedOnPolicy ? "false" : "true"}
+          checked={isChecked}
+          onCheckedChange={() => setIsChecked(!isChecked)}
+        />
+      </fetcher.Form> */}
     </label>
   );
 };

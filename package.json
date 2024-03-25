@@ -51,6 +51,7 @@
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
+    "framer-motion": "^11.0.20",
     "input-otp": "^1.2.2",
     "isbot": "^3.7.0",
     "lucide-react": "^0.358.0",

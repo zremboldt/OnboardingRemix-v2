@@ -78,6 +78,13 @@
   p {
     @apply text-muted-foreground;
   }
+  h1 {
+    @apply font-extrabold tracking-tight;
+  }
+  h2,
+  h3 {
+    @apply font-semibold tracking-tight;
+  }
 
   /* 👇 Handles browser inconsistency around input autofill treatment */
   input:-webkit-autofill,

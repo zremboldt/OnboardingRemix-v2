@@ -46,9 +46,7 @@ export default function MaritalStatusScene() {
 
   return (
     <Form method="post" className="flex flex-col gap-8 w-full max-w-md">
-      <h2 className="text-3xl font-semibold tracking-tight">
-        What’s your marital status?
-      </h2>
+      <h2 className="text-3xl">What’s your marital status?</h2>
 
       <RadioGroup
         name="marital-status"
