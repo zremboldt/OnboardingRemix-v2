@@ -1,7 +1,10 @@
-import { useMatches } from "@remix-run/react";
-import { useMemo } from "react";
+import { useLoaderData, useMatches } from "@remix-run/react";
+import { useMemo, useState } from "react";
 
-import type { User } from "~/models/user.server";
+import { createUser, type User } from "~/models/user.server";
+
+import { accountHasVehicles } from "./models/account.server";
+import { Vehicle, createVehicle } from "./models/vehicle.server";
 
 const DEFAULT_REDIRECT = "/";
 
@@ -74,3 +77,105 @@ export function useUser(): User {
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
+
+// Methods for demo purposes below 👇
+
+// This simulates us making our prefill request.
+export const prefillRequest = async ({
+  accountId,
+}: Pick<Vehicle, "accountId">) => {
+  const hasVehicles = await accountHasVehicles(accountId);
+  if (hasVehicles) {
+    return;
+  }
+
+  await createVehicle({
+    year: 2021,
+    make: "Honda",
+    model: "Accord",
+    vin: "1HGBH41JXMN109186",
+    includedOnPolicy: true,
+    accountId,
+  });
+  await createVehicle({
+    year: 2020,
+    make: "Dodge",
+    model: "Grand Caravan",
+    vin: "1HGBH41JXMN109187",
+    includedOnPolicy: true,
+    accountId,
+  });
+  await createUser({
+    firstName: "Mark",
+    lastName: "Watney",
+    accountId,
+    pni: false,
+  });
+  await createUser({
+    firstName: "Beth",
+    lastName: "Johanssen",
+    accountId,
+    pni: false,
+  });
+};
+
+export const createRandomVehicle = async ({
+  accountId,
+  vin,
+}: Pick<Vehicle, "vin" | "accountId">) => {
+  const randomNumber = Math.random();
+
+  if (randomNumber < 0.2) {
+    return createVehicle({
+      year: 2024,
+      make: "Honda",
+      model: "Odyssey",
+      vin,
+      accountId,
+      includedOnPolicy: true,
+    });
+  } else if (randomNumber < 0.4) {
+    return createVehicle({
+      year: 2023,
+      make: "Dodge",
+      model: "Challenger",
+      vin,
+      accountId,
+      includedOnPolicy: true,
+    });
+  } else if (randomNumber < 0.6) {
+    return createVehicle({
+      year: 2021,
+      make: "Honda",
+      model: "Civic",
+      vin,
+      accountId,
+      includedOnPolicy: true,
+    });
+  } else if (randomNumber < 0.8) {
+    return createVehicle({
+      year: 2020,
+      make: "Toyota",
+      model: "Camry",
+      vin,
+      accountId,
+      includedOnPolicy: true,
+    });
+  } else {
+    return createVehicle({
+      year: 2022,
+      make: "Toyota",
+      model: "Highlander",
+      vin,
+      accountId,
+      includedOnPolicy: true,
+    });
+  }
+};
+
+export const useRootLoaderData = () => {
+  // TODO: I'd like to find a better way but for now this keeps data driven UI elements from dissappearing during the route animation
+  const data = useLoaderData();
+  const [dataState] = useState(data);
+  return data || dataState;
+};
