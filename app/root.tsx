@@ -2,30 +2,32 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
   useLoaderData,
+  useLocation,
+  useOutlet,
   useRouteError,
 } from "@remix-run/react";
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
   useTheme,
 } from "remix-themes";
 
+import { RootLogo } from "~/assets/root-logo";
 import { themeSessionResolver, getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
-
 import { DarkModeToggle } from "./components/dark-mode-toggle";
-import { RootLogo } from "~/assets/root-logo";
+
 import { useOptionalUser } from "./utils";
-import { AddVehicleDrawer } from "./components/add-vehicle-drawer";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -52,6 +54,7 @@ export default function AppWithProviders() {
 
 export function App() {
   const data = useLoaderData<typeof loader>();
+  const outlet = useOutlet();
   const [theme] = useTheme();
   return (
     <html lang="en" className={clsx(theme)}>
@@ -63,9 +66,7 @@ export function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Layout>
-          <Outlet />
-        </Layout>
+        <Layout>{outlet}</Layout>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -80,13 +81,27 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     // eslint-disable-next-line react/no-unknown-property
     <div vaul-drawer-wrapper="" className="bg-background">
-      <header className="fixed w-full flex justify-between items-center p-2">
-        <RootLogo className="ml-2" />
+      <header className="w-full flex justify-between items-center p-2 z-10">
+        <Link
+          to="/"
+          className="p-2 border border-background rounded-md outline-none transition duration-200 focus-visible:ring-4 focus-visible:ring-ring/30 focus-visible:border-primary"
+        >
+          <RootLogo />
+        </Link>
         <DarkModeToggle />
       </header>
-      <main className="min-h-screen flex justify-center px-4 py-28 sm:pt-40">
-        {children}
-      </main>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.main
+          key={useLocation().key}
+          initial={{ x: `0%`, opacity: 0 }}
+          animate={{ x: "0", opacity: 1 }}
+          exit={{ x: `-0%`, opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="min-h-screen flex justify-center px-4 py-14 sm:pt-24"
+        >
+          {children}
+        </motion.main>
+      </AnimatePresence>
     </div>
   );
 }
