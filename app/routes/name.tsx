@@ -113,7 +113,7 @@ export default function NameScene() {
         Been here before?{" "}
         <Link
           to="/sign-in"
-          className="no-underline text-foreground transition hover:text-primary"
+          className="no-underline outline-none text-foreground transition hover:text-primary focus-visible:text-primary"
         >
           Finish signing up
         </Link>

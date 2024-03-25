@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher, useNavigate } from "@remix-run/react";
-import { Car, ChevronRight, Info, User } from "lucide-react";
+import { Car, ChevronRight, Info, MessageSquareText, User } from "lucide-react";
 import { FunctionComponent, useState } from "react";
 
 import { AddDriverDrawer } from "~/components/add-driver-drawer";
@@ -100,10 +100,21 @@ export default function ProfileReviewScene() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-8 w-full max-w-md">
-      <div className="flex flex-col gap-2">
-        <h2 className="text-3xl text-pretty">How does your profile look?</h2>
-        {/* Tip card here */}
+    <div className="flex flex-col gap-12 w-full max-w-md">
+      <h2 className="text-3xl text-pretty">How does your profile look?</h2>
+      <div className="flex items-center py-4 px-6 space-x-6 rounded-md border bg-background shadow-xl -mt-6">
+        <MessageSquareText
+          size={34}
+          strokeWidth={2}
+          absoluteStrokeWidth
+          className="text-primary"
+        />
+        <div className="flex-1 space-y-1">
+          <p className="text-xs font-semibold text-primary">GOOD TO KNOW</p>
+          <p className="text-sm font-semibold text-foreground">
+            Our app gives drivers like you discounts based on how you drive.
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -115,7 +126,9 @@ export default function ProfileReviewScene() {
           ))}
 
         <AddDriverDrawer />
+      </div>
 
+      <div className="flex flex-col gap-3">
         <h3>Vehicles</h3>
         {vehicles.length
           ? vehicles
@@ -126,11 +139,11 @@ export default function ProfileReviewScene() {
           : null}
 
         <AddVehicleDrawer />
-
-        <Button onClick={() => navigate(nextRoute)} className="w-full">
-          Continue
-        </Button>
       </div>
+
+      <Button onClick={() => navigate(nextRoute)} className="w-full">
+        Continue
+      </Button>
     </div>
   );
 }
@@ -150,13 +163,10 @@ const UserToggleCard: FunctionComponent<{
     ? fetcher.formData.get("includedOnPolicy") === "true"
     : user.includedOnPolicy;
 
-  const [isChecked, setIsChecked] = useState(includedOnPolicy);
-
   return (
-    <label
-      className=" flex items-center space-x-4 rounded-md border p-4 bg-background"
+    <button
+      className="group flex items-center text-start space-x-4 rounded-md border p-4 bg-background outline-none transition-all hover:bg-accent focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/30"
       key={user.id}
-      htmlFor={user.id}
     >
       <User />
       <div className="flex-1 space-y-1">
@@ -167,22 +177,8 @@ const UserToggleCard: FunctionComponent<{
           {includedOnPolicy ? "Covered" : "Not covered"}
         </p>
       </div>
-      <ChevronRight />
-      {/* {user.pni ? null : (
-        <fetcher.Form method="post">
-          <input type="hidden" name="_action" value="TOGGLE_DRIVER" />
-          <input type="hidden" name="userId" value={user.id} />
-          <Switch
-            id={user.id}
-            type="submit"
-            name="includedOnPolicy"
-            value={includedOnPolicy ? "false" : "true"}
-            checked={isChecked}
-            onCheckedChange={() => setIsChecked(!isChecked)}
-          />
-        </fetcher.Form>
-      )} */}
-    </label>
+      <ChevronRight className="transition group-focus:translate-x-1 group-hover:translate-x-1" />
+    </button>
   );
 };
 
@@ -201,13 +197,10 @@ const VehicleToggleCard: FunctionComponent<{
     ? fetcher.formData.get("includedOnPolicy") === "true"
     : vehicle.includedOnPolicy;
 
-  const [isChecked, setIsChecked] = useState(includedOnPolicy);
-
   return (
-    <label
-      className=" flex items-center space-x-4 rounded-md border p-4 bg-background"
+    <button
+      className="group flex items-center text-start space-x-4 rounded-md border p-4 bg-background outline-none transition-all hover:bg-accent focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/30"
       key={vehicle.id}
-      htmlFor={vehicle.id}
     >
       <Car />
       <div className="flex-1 space-y-1">
@@ -218,19 +211,7 @@ const VehicleToggleCard: FunctionComponent<{
           {includedOnPolicy ? "Added" : "Not added"}
         </p>
       </div>
-      <ChevronRight />
-      {/* <fetcher.Form method="post">
-        <input type="hidden" name="_action" value="TOGGLE_VEHICLE" />
-        <input type="hidden" name="vehicleId" value={vehicle.id} />
-        <Switch
-          id={vehicle.id}
-          type="submit"
-          name="includedOnPolicy"
-          value={includedOnPolicy ? "false" : "true"}
-          checked={isChecked}
-          onCheckedChange={() => setIsChecked(!isChecked)}
-        />
-      </fetcher.Form> */}
-    </label>
+      <ChevronRight className="transition group-focus:translate-x-1 group-hover:translate-x-1" />
+    </button>
   );
 };
