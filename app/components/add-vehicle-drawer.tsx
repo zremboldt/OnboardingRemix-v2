@@ -1,5 +1,5 @@
 import { useFetcher } from "@remix-run/react";
-import { Car, CarFront, CirclePlus, Loader2 } from "lucide-react";
+import { CirclePlus, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { CarWireframeFront } from "~/assets/car-wireframe-front";

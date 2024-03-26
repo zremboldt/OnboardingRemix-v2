@@ -67,7 +67,7 @@ export function App() {
       </head>
       <body className="h-full">
         <Layout>{outlet}</Layout>
-        <ScrollRestoration />
+        {/* <ScrollRestoration /> */}
         <Scripts />
         <LiveReload />
       </body>
@@ -84,7 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <header className="w-full flex justify-between items-center p-2 z-10">
         <Link
           to="/"
-          className="p-2 border border-background rounded-md outline-none transition duration-200 focus-visible:ring-4 focus-visible:ring-ring/30 focus-visible:border-primary"
+          className="p-2 border border-transparent rounded-md outline-none transition duration-200 focus-visible:ring-4 focus-visible:ring-ring/30 focus-visible:border-primary"
         >
           <RootLogo />
         </Link>
@@ -97,7 +97,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           animate={{ x: "0", opacity: 1 }}
           exit={{ x: `-0%`, opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="min-h-screen flex justify-center px-4 py-14 sm:pt-24"
+          className="min-h-fit flex justify-center px-4 py-14 sm:py-24"
         >
           {children}
         </motion.main>
