@@ -77,6 +77,7 @@ export function App() {
 
 function Layout({ children }: { children: React.ReactNode }) {
   const user = useOptionalUser();
+  const location = useLocation();
 
   return (
     // eslint-disable-next-line react/no-unknown-property
@@ -92,7 +93,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </header>
       <AnimatePresence mode="wait" initial={false}>
         <motion.main
-          key={useLocation().key}
+          key={location.pathname}
           initial={{ x: `0%`, opacity: 0 }}
           animate={{ x: "0", opacity: 1 }}
           exit={{ x: `-0%`, opacity: 0 }}
