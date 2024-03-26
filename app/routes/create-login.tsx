@@ -83,7 +83,11 @@ export default function CreateLoginScene() {
           autoComplete="email"
         />
 
-        {actionData?.errors?.email ? <p>{actionData.errors.email}</p> : null}
+        {actionData?.errors?.email ? (
+          <p className="text-destructive text-sm -mt-2">
+            {actionData.errors.email}
+          </p>
+        ) : null}
 
         <Input
           name="password"
@@ -92,7 +96,9 @@ export default function CreateLoginScene() {
         />
 
         {actionData?.errors?.password ? (
-          <p>{actionData.errors.password}</p>
+          <p className="text-destructive text-sm -mt-2">
+            {actionData.errors.password}
+          </p>
         ) : null}
 
         <Button type="submit" className="w-full">

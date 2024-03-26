@@ -53,7 +53,9 @@ export default function AddressScene() {
         />
 
         {actionData?.errors?.address ? (
-          <p>{actionData.errors.address}</p>
+          <p className="text-destructive text-sm -mt-2">
+            {actionData.errors.address}
+          </p>
         ) : null}
 
         <Button type="submit" className="w-full">

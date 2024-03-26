@@ -119,7 +119,9 @@ export default function NameScene() {
         </InputOTP>
 
         {actionData?.errors?.lastName ? (
-          <p>{actionData.errors.lastName}</p>
+          <p className="text-destructive text-sm -mt-2">
+            {actionData.errors.lastName}
+          </p>
         ) : null}
 
         <Button type="submit" className="w-full">
