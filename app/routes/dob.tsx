@@ -4,9 +4,9 @@ import type {
   MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData } from "@remix-run/react";
-import { Badge } from "~/components/ui/badge";
+import { Form, useActionData } from "@remix-run/react";
 
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
   InputOTP,
@@ -14,17 +14,9 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "~/components/ui/input-otp";
-
-import { createAccount } from "~/models/account.server";
-import { createUser, updateUser } from "~/models/user.server";
-import {
-  createUserSession,
-  getSession,
-  getUser,
-  requireUser,
-  requireUserId,
-} from "~/session.server";
-import { safeRedirect, useRootLoaderData } from "~/utils";
+import { updateUser } from "~/models/user.server";
+import { requireUser, requireUserId } from "~/session.server";
+import { useRootLoaderData } from "~/utils";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { dob } = await requireUser(request);
@@ -41,42 +33,43 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  console.log(Object.entries(request.formData));
   const userId = await requireUserId(request);
-
   const formData = await request.formData();
-  const month = formData.get("month");
-  const day = formData.get("day");
-  const year = formData.get("year");
+  const dobString = formData.get("dob");
 
-  if (month && day && year) {
-    const dob = new Date(`${year}-${month}-${day}`);
-
-    if (isNaN(dob.getTime())) {
-      return json({ errors: { dob: "This date is invalid" } }, { status: 400 });
-    }
-
-    // ensure user is at least 18
-    const eighteenYearsAgo = new Date();
-    eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
-
-    if (dob.getTime() > eighteenYearsAgo.getTime()) {
-      return json(
-        { errors: { dob: "You must be at least 18 years old" } },
-        { status: 400 },
-      );
-    }
-
-    await updateUser(userId, "dob", dob);
-    return redirect(`/address`);
+  if (typeof dobString !== "string" || dobString?.length !== 8) {
+    return json({ errors: { dob: "This date is invalid" } }, { status: 400 });
   }
-  return json(
-    { errors: { dob: "Date of birth is required" }, routeTo: null },
-    { status: 400 },
-  );
+
+  const month = dobString.slice(0, 2);
+  const day = dobString.slice(2, 4);
+  const year = dobString.slice(4, 8);
+
+  const dob = new Date(`${year}-${month}-${day}`);
+
+  if (isNaN(dob.getTime())) {
+    return json({ errors: { dob: "This date is invalid" } }, { status: 400 });
+  }
+
+  // ensure user is at least 18
+  const eighteenYearsAgo = new Date();
+  eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+
+  if (dob.getTime() > eighteenYearsAgo.getTime()) {
+    return json(
+      { errors: { dob: "You must be at least 18 years old" } },
+      { status: 400 },
+    );
+  }
+
+  await updateUser(userId, "dob", dob);
+
+  return redirect(`/address`);
 };
 
-export const meta: MetaFunction = () => [{ title: "DOB | Root Insurance" }];
+export const meta: MetaFunction = () => [
+  { title: "Birthday | Root Insurance" },
+];
 
 export default function NameScene() {
   const { month, day, year } = useRootLoaderData() || {};
@@ -84,13 +77,7 @@ export default function NameScene() {
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-md">
-      <div>
-        <h2 className="text-3xl">When’s your birthday?</h2>
-        {/* <Badge variant="outline" className="text-muted-foreground mt-2">
-          MM-DD-YYYY
-        </Badge> */}
-        {/* <p className="text-sm text-muted-foreground mt-2">MM-DD-YYYY</p> */}
-      </div>
+      <h2 className="text-3xl">When’s your birthday?</h2>
 
       <Form method="post" className="flex flex-col gap-3 relative">
         <Badge
@@ -99,7 +86,7 @@ export default function NameScene() {
         >
           MM-DD-YYYY
         </Badge>
-        <InputOTP maxLength={8}>
+        <InputOTP maxLength={8} name="dob">
           <InputOTPGroup>
             <InputOTPSlot index={0} />
             <InputOTPSlot index={1} />
@@ -118,15 +105,13 @@ export default function NameScene() {
           </InputOTPGroup>
         </InputOTP>
 
-        {actionData?.errors?.lastName ? (
+        {actionData?.errors?.dob ? (
           <p className="text-destructive text-sm -mt-2">
-            {actionData.errors.lastName}
+            {actionData.errors.dob}
           </p>
         ) : null}
 
-        <Button type="submit" className="w-full">
-          Continue
-        </Button>
+        <Button type="submit">Continue</Button>
       </Form>
     </div>
   );
