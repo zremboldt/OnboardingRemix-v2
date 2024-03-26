@@ -3,11 +3,12 @@ import { Theme, useTheme } from "remix-themes";
 
 import { Button } from "./ui/button";
 
-export function DarkModeToggle() {
+export function DarkModeToggle({ className }) {
   const [theme, setTheme] = useTheme();
 
   return (
     <Button
+      className={className}
       variant="ghost"
       size="icon"
       onClick={() =>

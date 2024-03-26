@@ -38,7 +38,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const dobString = formData.get("dob");
 
   if (typeof dobString !== "string" || dobString?.length !== 8) {
-    return json({ errors: { dob: "This date is invalid" } }, { status: 400 });
+    return json(
+      { errors: { dob: "Please enter a valid date" } },
+      { status: 400 },
+    );
   }
 
   const month = dobString.slice(0, 2);
@@ -48,7 +51,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const dob = new Date(`${year}-${month}-${day}`);
 
   if (isNaN(dob.getTime())) {
-    return json({ errors: { dob: "This date is invalid" } }, { status: 400 });
+    return json(
+      { errors: { dob: "Please enter a valid date" } },
+      { status: 400 },
+    );
   }
 
   // ensure user is at least 18

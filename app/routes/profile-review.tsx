@@ -102,7 +102,7 @@ export default function ProfileReviewScene() {
   return (
     <div className="flex flex-col gap-12 w-full max-w-md">
       <h2 className="text-3xl text-pretty">How does your profile look?</h2>
-      <div className="flex items-center py-4 px-6 space-x-6 rounded-md border bg-background shadow-xl -mt-6">
+      <div className="flex items-center py-4 px-6 space-x-6 rounded-md border bg-background shadow-xl shadow-slate-400/25 dark:shadow-none -mt-6">
         <MessageSquareText
           size={34}
           strokeWidth={2}

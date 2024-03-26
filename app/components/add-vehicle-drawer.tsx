@@ -59,7 +59,7 @@ export const AddVehicleDrawer = () => {
               <div className="relative flex gap-4 items-center">
                 <CarWireframeFront className="w-24 h-auto shrink-0" />
                 <div className="absolute top-[18px] left-[56px] size-2">
-                  <div className="absolute size-full rounded-full bg-green-400 opacity-60 animate-slow-ping" />
+                  <div className="absolute size-full rounded-full bg-green-400 opacity-80 animate-slow-ping" />
                   <div className="absolute size-full rounded-full border border-background bg-green-400" />
                 </div>
                 <div>
@@ -73,7 +73,7 @@ export const AddVehicleDrawer = () => {
               <div className="relative flex gap-4 items-center">
                 <CarWireframeSide className="w-24 h-auto shrink-0" />
                 <div className="absolute bottom-[15px] left-[52px] size-2">
-                  <div className="absolute size-full rounded-full bg-green-400 opacity-60 animate-slow-ping" />
+                  <div className="absolute size-full rounded-full bg-green-400 opacity-80 animate-slow-ping" />
                   <div className="absolute size-full rounded-full border border-background bg-green-400" />
                 </div>
                 <div>
