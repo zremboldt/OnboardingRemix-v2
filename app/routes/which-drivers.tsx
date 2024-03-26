@@ -117,9 +117,7 @@ export default function WhichDriversScene() {
 
         <AddDriverDrawer />
 
-        <Button onClick={() => navigate(`/recent-accident`)} className="w-full">
-          Continue
-        </Button>
+        <Button onClick={() => navigate(`/recent-accident`)}>Continue</Button>
       </div>
 
       <Alert className="text-muted-foreground">

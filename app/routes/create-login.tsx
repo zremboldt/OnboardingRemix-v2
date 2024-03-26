@@ -101,9 +101,7 @@ export default function CreateLoginScene() {
           </p>
         ) : null}
 
-        <Button type="submit" className="w-full">
-          Continue
-        </Button>
+        <Button type="submit">Continue</Button>
       </Form>
     </div>
   );

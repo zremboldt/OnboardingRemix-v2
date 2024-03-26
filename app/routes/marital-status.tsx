@@ -69,9 +69,7 @@ export default function MaritalStatusScene() {
         ) : null}
       </RadioGroup>
 
-      <Button type="submit" className="w-full">
-        Continue
-      </Button>
+      <Button type="submit">Continue</Button>
     </Form>
   );
 }

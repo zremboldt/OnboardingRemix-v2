@@ -77,9 +77,7 @@ export default function RecentAccidentScene() {
         ) : null}
       </RadioGroup>
 
-      <Button type="submit" className="w-full">
-        Continue
-      </Button>
+      <Button type="submit">Continue</Button>
 
       <Alert className="text-muted-foreground">
         <Info className="h-4 w-4" />

@@ -95,9 +95,7 @@ export default function WhichVehiclesScene() {
 
         <AddVehicleDrawer />
 
-        <Button onClick={() => navigate(`/which-drivers`)} className="w-full">
-          Continue
-        </Button>
+        <Button onClick={() => navigate(`/which-drivers`)}>Continue</Button>
       </div>
 
       <Alert className="text-muted-foreground">

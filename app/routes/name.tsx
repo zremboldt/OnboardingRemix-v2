@@ -108,9 +108,7 @@ export default function NameScene() {
           </p>
         ) : null}
 
-        <Button type="submit" className="w-full">
-          Continue
-        </Button>
+        <Button type="submit">Continue</Button>
       </Form>
 
       <p className="text-center">

@@ -141,9 +141,7 @@ export default function ProfileReviewScene() {
         <AddVehicleDrawer />
       </div>
 
-      <Button onClick={() => navigate(nextRoute)} className="w-full">
-        Continue
-      </Button>
+      <Button onClick={() => navigate(nextRoute)}>Continue</Button>
     </div>
   );
 }
