@@ -1,35 +1,45 @@
 import { cn } from "~/lib/utils";
 
 export const MultiStepProgress = ({ className, location }) => {
-  console.log(location.pathname);
-
-  const pages = [
-    { path: "/sign-in", index: 0 },
-    { path: "/name", index: 0 },
-    { path: "/dob", index: 0 },
-    { path: "/address", index: 0 },
-    { path: "/homeowner", index: 0 },
-    { path: "/recently-moved", index: 0 },
-    { path: "/marital-status", index: 0 },
-    { path: "/which-vehicles", index: 1 },
-    { path: "/which-drivers", index: 2 },
-    { path: "/recent-accident", index: 2 },
-    { path: "/profile-review", index: 3 },
-    { path: "/create-login", index: 3 },
-    { path: "/end", index: 4 },
-  ];
-
   const sections = [
-    { name: "Profile" },
-    { name: "Vehicles" },
-    { name: "Drivers" },
-    { name: "Review" },
-    { name: "Quote" },
+    {
+      name: "Profile",
+      index: 0,
+      paths: [
+        "/sign-in",
+        "/name",
+        "/dob",
+        "/address",
+        "/homeowner",
+        "/recently-moved",
+        "/marital-status",
+      ],
+    },
+    {
+      name: "Vehicles",
+      index: 1,
+      paths: ["/which-vehicles"],
+    },
+    {
+      name: "Drivers",
+      index: 2,
+      paths: ["/which-drivers", "/recent-accident"],
+    },
+    {
+      name: "Review",
+      index: 3,
+      paths: ["/profile-review", "/create-login"],
+    },
+    {
+      name: "Quote",
+      index: 4,
+      paths: ["/end"],
+    },
   ];
 
-  const currentSectionIndex = pages.find(
-    (page) => page.path === location.pathname,
-  ).index;
+  const currentSectionIndex = sections.findIndex(({ paths }) =>
+    paths.includes(location.pathname),
+  );
 
   return (
     <ol
