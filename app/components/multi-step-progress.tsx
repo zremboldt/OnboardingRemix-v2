@@ -41,8 +41,8 @@ export const MultiStepProgress = ({ className, location }) => {
           <div className="h-0.5 bg-muted-foreground/40">
             <div
               className={cn(
-                "h-full bg-foreground transition-all duration-1000 w-0",
-                currentSectionIndex >= i && "w-full",
+                "h-full bg-foreground w-full transition-all duration-1000 origin-left scale-x-0",
+                currentSectionIndex >= i && "scale-x-100",
               )}
             />
           </div>
