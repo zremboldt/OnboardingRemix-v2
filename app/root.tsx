@@ -8,11 +8,9 @@ import {
   Meta,
   Scripts,
   ScrollRestoration,
-  isRouteErrorResponse,
   useLoaderData,
   useLocation,
   useOutlet,
-  useRouteError,
 } from "@remix-run/react";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -78,7 +76,6 @@ export function App() {
 }
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const user = useOptionalUser();
   const location = useLocation();
 
   return (
@@ -100,7 +97,6 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <DarkModeToggle />
       </header>
-      {/* <MultiStepProgress className="relative z-1 mx-auto py-4 px-6 max-w-screen-lg rounded-md border bg-background/75 shadow-xl" /> */}
       <MultiStepProgress
         location={location}
         className="mx-auto px-4 mt-1 lg:-mt-2 max-w-screen-md"
@@ -117,33 +113,6 @@ function Layout({ children }: { children: React.ReactNode }) {
           {children}
         </motion.main>
       </AnimatePresence>
-      {/* <DarkModeToggle className="fixed bottom-2 right-2" /> */}
     </div>
   );
 }
-
-// export function ErrorBoundary() {
-//   const error = useRouteError();
-//   let status = 500;
-//   let message = "An unexpected error occurred.";
-//   if (isRouteErrorResponse(error)) {
-//     status = error.status;
-//     switch (error.status) {
-//       case 404:
-//         status = 404;
-//         message = "Page Not Found";
-//         break;
-//     }
-//   } else {
-//     console.error(error);
-//   }
-
-//   return (
-//     <Layout>
-//       <div className="container prose py-8">
-//         <h1>{status}</h1>
-//         <p>{message}</p>
-//       </div>
-//     </Layout>
-//   );
-// }

@@ -6,7 +6,6 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 
-import { Autocomplete } from "~/components/autocomplete";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { updateUser } from "~/models/user.server";
@@ -52,7 +51,6 @@ export default function AddressScene() {
           defaultValue={address}
           placeholder="Address, city, state, ZIP"
         />
-        {/* <Autocomplete /> */}
 
         {actionData?.errors?.address ? (
           <p className="text-destructive text-sm -mt-2">
